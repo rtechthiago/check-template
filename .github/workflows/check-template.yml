@@ -14,7 +14,7 @@ jobs:
         persist-credentials: false
         fetch-depth: 0
         ref: ${{ github.ref }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GLOBAL_TOKEN }}
 
 
     - name: Checkout repositório remoto
@@ -57,8 +57,8 @@ jobs:
     - name: Faz o push caso apresente falha
       run: |
         rm -rf remote_repo/ && rm -rf remote_actions/
-        git config user.name "GitHub Actions"
-        git config user.email "robthross@github.com"
+        git config user.name ${{ github.actor }}
+        git config user.email "${{ github.actor }}@github.com"
         git add .github/
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Sync .github com o diretório remoto [skip ci]"
