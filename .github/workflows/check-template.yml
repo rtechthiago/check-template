@@ -25,9 +25,9 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
-        repository: robthross/gitactions
+        repository: rtechthiago/check-template
         path: remote_actions
-        ref: develop
+        ref: main
         token: ${{ secrets.GLOBAL_TOKEN }}
     
     - name: Checkout repositório remoto
@@ -35,7 +35,7 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
-        repository: robthross/static_website
+        repository: rtechthiago/template
         path: remote_repo
         ref: main
         token: ${{ secrets.GLOBAL_TOKEN }}
