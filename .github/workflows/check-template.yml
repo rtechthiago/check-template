@@ -1,0 +1,72 @@
+name: Compara Templates
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
+
+jobs:
+  compara_diretorios:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repositório atual
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: ${{ github.ref }}
+        token: ${{ secrets.GLOBAL_TOKEN }}
+
+
+    - name: Checkout repositório remoto
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        repository: robthross/gitactions
+        path: remote_actions
+        ref: develop
+        token: ${{ secrets.GLOBAL_TOKEN }}
+    
+    - name: Checkout repositório remoto
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        repository: robthross/static_website
+        path: remote_repo
+        ref: main
+        token: ${{ secrets.GLOBAL_TOKEN }}
+
+    - name: Configura Ambiente Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: pip install ruamel.yaml
+
+    - name: Rodando Script de Comparação e Sincronia
+      run: |
+        python remote_actions/.github/scripts/compare_yaml.py
+
+    - name: Configura workflow
+      run: |
+        python remote_actions/.github/scripts/set_up_workflow.py
+
+
+    - name: Faz o push caso apresente falha
+      run: |
+        rm -rf remote_repo/ && rm -rf remote_actions/
+        git config user.name "GitHub Actions"
+        git config user.email "${{ github.actor }}@github.com"
+        git add .github/
+        if [[ $(git status --porcelain) ]]; then
+          git commit -m "Sync .github com o diretório remoto [skip ci]"
+          git push
+        else
+          echo "Sem mudanças para comitar"
+        fi
+    continue-on-error: true
