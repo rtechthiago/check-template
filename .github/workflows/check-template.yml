@@ -2,9 +2,6 @@ name: Compara Templates
 
 on:
   workflow_call:
-    secrets:
-      token:
-        required: true
 
 jobs:
   compara_diretorios:
