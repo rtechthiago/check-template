@@ -58,7 +58,7 @@ jobs:
       run: |
         rm -rf remote_repo/ && rm -rf remote_actions/
         git config user.name "GitHub Actions"
-        git config user.email "${{ github.actor }}@github.com"
+        git config user.email "rtechthiago@github.com"
         git add .github/
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Sync .github com o diretório remoto [skip ci]"
