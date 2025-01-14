@@ -32,10 +32,10 @@ jobs:
     - name: Verifica se a Branch existe
       id: verifica_branch
       run: |
-        if [ git show-ref --verify refs/heads/$COMMIT_MESSAGE ]; then
+        if [ git show-ref --verify refs/heads/${{ steps.commit_message.outputs.commit_message }} ]; then
           echo "branch_exists=true" >> $GITHUB_ENV
         else
-          echo "Branch $COMMIT_MESSAGE não existe."
+          echo "Branch ${{ steps.commit_message.outputs.commit_message }} não existe."
           echo "branch_exists=false" >> $GITHUB_ENV
         fi
 
