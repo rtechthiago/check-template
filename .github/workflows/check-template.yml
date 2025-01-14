@@ -7,6 +7,15 @@ jobs:
   compara_diretorios:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Checkout repositório atual
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: ${{ github.ref }}
+        ssh-key: ${{ secrets.GLOBAL_SSH }}
+        
     - name: Checa mensagem do commit
       id: commit_message
       run: |
