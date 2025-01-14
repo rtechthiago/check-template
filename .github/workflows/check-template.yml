@@ -16,6 +16,7 @@ jobs:
     - name: Pega nome da branch pelo commit
       id: extract_branch
       run: |
+        echo $GITHUB_ENV
         COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
         BRANCH_NAME=$(echo "$COMMIT_MESSAGE")
         echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
@@ -89,7 +90,7 @@ jobs:
         python remote_actions/.github/scripts/set_up_workflow.py
 
 
-    - name: Faz o push caso apresente falha
+    - name: Faz o push caso tenha alteração
       run: |
         rm -rf remote_repo/ && rm -rf remote_actions/
         git config --global user.name ${{ github.actor }}
