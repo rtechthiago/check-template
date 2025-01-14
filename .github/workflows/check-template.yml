@@ -17,7 +17,7 @@ jobs:
       id: extract_branch
       run: |
         COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
-        BRANCH_NAME=$(echo "$COMMIT_MESSAGE" | grep -oP '(?<=\[)\w+(?=\] )')
+        BRANCH_NAME=$(echo "$COMMIT_MESSAGE"
         echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
 
     - name: Verifica se a Branch existe
