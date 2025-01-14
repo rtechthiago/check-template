@@ -9,12 +9,12 @@ jobs:
     steps:
     - name: Checa mensagem do commit
       id: commit_message
-      run: echo "::set-output name=commit-message::$(git log -1 --pretty=%B)"
+      run: echo "::set-output name=commit_message::$(git log -1 --pretty=%B)"
 
     - name: Pega nome da branch pelo commit
       id: extract_branch
       run: |
-        COMMIT_MESSAGE=$(echo ${{ steps.commit_message.outputs.commit_message }} | grep -oP '(?<= \[)\w+(?=\] )')
+        COMMIT_MESSAGE=$(echo ${{ steps.commit_message.outputs.commit_message }} | grep -oP '(?<= \[)\w\W+(?=\] )')
     
     - name: Verifica se a Branch existe
       id: verifica_branch
