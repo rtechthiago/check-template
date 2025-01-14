@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 0
         ref: ${{ github.ref }}
         ssh-key: ${{ secrets.GLOBAL_SSH }}
-        
+
     - name: Checa mensagem do commit
       id: commit_message
       run: |
@@ -25,9 +25,8 @@ jobs:
     - name: Pega nome da branch pelo commit
       id: extract_branch
       run: |
-        echo $GITHUB_ENV
         COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
-        BRANCH_NAME=$(echo "$COMMIT_MESSAGE")
+        BRANCH_NAME=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
         echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
 
     - name: Verifica se a Branch existe
