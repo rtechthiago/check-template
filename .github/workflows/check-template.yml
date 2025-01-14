@@ -9,23 +9,26 @@ jobs:
     steps:
     - name: Checa mensagem do commit
       id: commit_message
-      run: echo "::set-output name=commit_message::$(git log -1 --pretty=%B)"
+      run: |
+        echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        
 
     - name: Pega nome da branch pelo commit
       id: extract_branch
       run: |
-        COMMIT_MESSAGE=$(echo ${{ steps.commit_message.outputs.commit_message }} | grep -oP '(?<= \[)\w\W+(?=\] )')
-    
+        COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
+        BRANCH_NAME=$(echo "$COMMIT_MESSAGE" | grep -oP '(?<=\[)\w+(?=\] )')
+        echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+
     - name: Verifica se a Branch existe
       id: verifica_branch
       run: |
-        BRANCH_NAME=${{ steps.extract_branch.outputs.extract_branch }}
+        BRANCH_NAME=$(echo "$GITHUB_ENV" | grep branch_name | cut -d'=' -f2)
         if git show-ref --verify --quiet refs/heads/BRANCH_NAME; then
-          echo "Branch '$BRANCH_NAME' existe."
-          echo "::set-output name=branch_exists::true"
+          echo "branch_exists=true" >> $GITHUB_ENV
         else
           echo "Branch '$BRANCH_NAME' não existe."
-          echo "::set-output name=branch_exists::false"
+          echo "branch_exists=false" >> $GITHUB_ENV
         fi
 
     - name: Criar Nova Branch 
@@ -33,8 +36,8 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git config --global user.email "you@example.com" 
-        git config --global user.name "Your Name" 
+        git config --global user.email "rtech.thiago@gmail.com"
+        git config --global user.name ${{ github.actor }} 
         BRANCH_NAME=${{ steps.extract_branch.outputs.branch_name }} 
         NEW_BRANCH_NAME=${BRANCH_NAME}-AUTO 
         git checkout $BRANCH_NAME 
