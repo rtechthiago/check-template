@@ -32,11 +32,10 @@ jobs:
     - name: Verifica se a Branch existe
       id: verifica_branch
       run: |
-        BRANCH_NAME=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
-        if [ git show-ref --verify refs/heads/$BRANCH_NAME ]; then
+        if [ git show-ref --verify refs/heads/$COMMIT_MESSAGE ]; then
           echo "branch_exists=true" >> $GITHUB_ENV
         else
-          echo "Branch $BRANCH_NAME não existe."
+          echo "Branch $COMMIT_MESSAGE não existe."
           echo "branch_exists=false" >> $GITHUB_ENV
         fi
 
@@ -47,7 +46,7 @@ jobs:
       run: |
         git config --global user.email "rtech.thiago@gmail.com"
         git config --global user.name ${{ github.actor }} 
-        BRANCH_NAME=${{ steps.extract_branch.outputs.branch_name }} 
+        BRANCH_NAME=${{ steps.commit_message.outputs.commit_message }} 
         NEW_BRANCH_NAME=${BRANCH_NAME}-AUTO 
         git checkout $BRANCH_NAME 
         git checkout -b $NEW_BRANCH_NAME
