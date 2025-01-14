@@ -6,8 +6,40 @@ on:
 jobs:
   compara_diretorios:
     runs-on: ubuntu-latest
-
     steps:
+    - name: Checa mensagem do commit
+      id: commit_message
+      run: echo "::set-output name=commit-message::$(git log -1 --pretty=%B)"
+
+    - name: Pega nome da branch pelo commit
+      id: extract_branch
+      run: |
+        COMMIT_MESSAGE=$(echo ${{ steps.commit_message.outputs.commit_message }} | grep -oP '(?<= \[)\w+(?=\] )')
+    
+    - name: Verifica se a Branch existe
+      id: verifica_branch
+      run: |
+        BRANCH_NAME=${{ steps.extract_branch.outputs.extract_branch }}
+        if git show-ref --verify --quiet refs/heads/BRANCH_NAME; then
+          echo "Branch '$BRANCH_NAME' existe."
+          echo "::set-output name=branch_exists::true"
+        else
+          echo "Branch '$BRANCH_NAME' não existe."
+          echo "::set-output name=branch_exists::false"
+        fi
+
+    - name: Criar Nova Branch 
+      if: steps.verifica_branch.outputs.branch_exists == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.email "you@example.com" 
+        git config --global user.name "Your Name" 
+        BRANCH_NAME=${{ steps.extract_branch.outputs.branch_name }} 
+        NEW_BRANCH_NAME=${BRANCH_NAME}-AUTO 
+        git checkout $BRANCH_NAME 
+        git checkout -b $NEW_BRANCH_NAME
+    
     - name: Checkout repositório atual
       uses: actions/checkout@v4
       with:
