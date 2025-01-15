@@ -33,8 +33,7 @@ jobs:
     - name: Verifica se a Branch existe
       id: verifica_branch
       run: |
-        BRANCH_NAME=${{ steps.extract_branch.outputs.branch_name }} 
-        if [ git show-ref --verify refs/heads/$BRANCH_NAME ]; then
+        if [ git show-ref --verify --quiet refs/heads/$BRANCH_NAME ]; then
           echo "branch_exists=true" >> $GITHUB_ENV
         else
           echo "Branch $BRANCH_NAME não existe."
