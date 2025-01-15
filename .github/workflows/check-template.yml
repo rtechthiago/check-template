@@ -21,14 +21,8 @@ jobs:
       run: |
         echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
         echo "branch_name=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        echo "new_branch_name=${branch_name}-AUTO" >> $GITHUB_ENV
         
-
-    # - name: Pega nome da branch pelo commit
-    #   id: extract_branch
-    #   run: |
-    #     COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
-    #     BRANCH_NAME=$(echo "$GITHUB_ENV" | grep branch_name | cut -d'=' -f2)
-  
     
     - id: verifica_branch
       uses: GuillaumeFalourd/branch-exists@v1.1
@@ -48,10 +42,10 @@ jobs:
       run: |
         git config --global user.email "rtech.thiago@gmail.com"
         git config --global user.name ${{ github.actor }} 
-        echo "NEW_BRANCH_NAME=${branch_name}-AUTO" >> $GITHUB_ENV
+        
         git fetch origin
         git checkout $branch_name 
-        git checkout -b $NEW_BRANCH_NAME
+        git checkout -b $new_branch_name
     
     - name: Checkout repositório atual
       uses: actions/checkout@v4
