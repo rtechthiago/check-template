@@ -30,15 +30,21 @@ jobs:
         BRANCH_NAME=$(echo "$GITHUB_ENV" | grep branch_name | cut -d'=' -f2)
   
 
-    - name: Verifica se a Branch existe
-      id: verifica_branch
+
+        
+    - id: verifica_branch
+      uses: GuillaumeFalourd/branch-exists@v1.1
+      with:
+        branch: ${{ steps.commit_message.outputs.branch_name }}
+      
+    - if: steps.verifica_branch.outputs.exists == 'true'
       run: |
-        if [ git show-ref --verify --quiet refs/heads/$BRANCH_NAME ]; then
           echo "branch_exists=true" >> $GITHUB_ENV
-        else
+
+    - if: steps.verifica_branch.outputs.exists == 'false'
+      run: |
           echo "Branch $BRANCH_NAME não existe."
           echo "branch_exists=false" >> $GITHUB_ENV
-        fi
 
     - name: Criar Nova Branch 
       if: steps.verifica_branch.outputs.branch_exists == 'true'
