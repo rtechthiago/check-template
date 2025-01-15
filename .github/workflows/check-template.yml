@@ -49,6 +49,7 @@ jobs:
         git config --global user.email "rtech.thiago@gmail.com"
         git config --global user.name ${{ github.actor }} 
         echo "NEW_BRANCH_NAME=${branch_name}-AUTO" >> $GITHUB_ENV
+        git fetch origin
         git checkout $branch_name 
         git checkout -b $NEW_BRANCH_NAME
     
