@@ -29,17 +29,12 @@ jobs:
         COMMIT_MESSAGE=$(echo "$GITHUB_ENV" | grep commit_message | cut -d'=' -f2)
         BRANCH_NAME=$(echo "$GITHUB_ENV" | grep branch_name | cut -d'=' -f2)
   
-
-
-        
+    
     - id: verifica_branch
       uses: GuillaumeFalourd/branch-exists@v1.1
       with:
         branch: ${{ steps.commit_message.outputs.branch_name }}
       
-    - if: steps.verifica_branch.outputs.exists == 'true'
-      run: |
-          echo "branch_exists=true" >> $GITHUB_ENV
 
     - if: steps.verifica_branch.outputs.exists == 'false'
       run: |
@@ -47,7 +42,7 @@ jobs:
           echo "branch_exists=false" >> $GITHUB_ENV
 
     - name: Criar Nova Branch 
-      if: steps.verifica_branch.outputs.branch_exists == 'true'
+      if: steps.verifica_branch.outputs.exists == 'true'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
