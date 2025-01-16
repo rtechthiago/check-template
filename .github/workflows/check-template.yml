@@ -98,7 +98,6 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
-        ref: $new_branch_name
         ssh-key: ${{ secrets.GLOBAL_SSH }}
 
     - name: Faz o push caso tenha alteração
