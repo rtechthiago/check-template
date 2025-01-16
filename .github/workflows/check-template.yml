@@ -98,11 +98,12 @@ jobs:
     - name: Checkout New Branch
       uses: actions/checkout@v4
       with:
-        persist-credentials: false
+        persist-credentials: true
         fetch-depth: 0
         clean: 'false'
         ref: ${{ env.new_branch_name }}
-        ssh-key: ${{ secrets.GLOBAL_TOKEN }}
+        token: ${{ secrets.GLOBAL_TOKEN }}
+
 
     - name: Faz o push caso tenha alteração
       run: |
