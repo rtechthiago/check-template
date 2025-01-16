@@ -22,7 +22,17 @@ jobs:
         echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
         echo "branch_name=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
         echo "new_branch_name=$(git log -1 --pretty=%B)-AUTO" >> $GITHUB_ENV
-        
+    
+    
+    - id: deleta_branch
+      uses: GuillaumeFalourd/branch-exists@v1.1
+      with:
+        branch: ${{ steps.commit_message.outputs.new_branch_name }}
+
+    
+    - if: steps.deleta_branch.outputs.exists == 'true'
+      run: |
+          git push origin --delete $new_branch_name
     
     - id: verifica_branch
       uses: GuillaumeFalourd/branch-exists@v1.1
