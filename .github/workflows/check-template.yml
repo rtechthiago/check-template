@@ -54,7 +54,7 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
-        ref: ${{ github.ref }}
+        ref: ${{ env.new_branch_name }}
         ssh-key: ${{ secrets.GLOBAL_SSH }}
 
 
