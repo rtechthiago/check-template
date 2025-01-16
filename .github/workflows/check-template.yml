@@ -46,6 +46,8 @@ jobs:
         git fetch origin
         git checkout $branch_name 
         git checkout -b $new_branch_name
+        git commit --allow-empty -m "Automation Pipeline"
+        git push --set-upstream origin $new_branch_name
     
     - name: Checkout repositório atual
       uses: actions/checkout@v4
