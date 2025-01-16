@@ -93,6 +93,13 @@ jobs:
       run: |
         python remote_actions/.github/scripts/set_up_workflow.py
 
+    - name: Checkout repositório atual
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+        ref: ${{ github.ref }}
+        ssh-key: ${{ secrets.GLOBAL_SSH }}
 
     - name: Faz o push caso tenha alteração
       run: |
@@ -102,7 +109,7 @@ jobs:
         git add .github/
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Sync .github com o diretório remoto [skip ci]"
-          git push
+          git push --set-upstream origin $new_branch_name
         else
           echo "Sem mudanças para comitar"
         fi
