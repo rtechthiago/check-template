@@ -102,7 +102,7 @@ jobs:
         fetch-depth: 0
         clean: 'false'
         ref: ${{ env.new_branch_name }}
-        ssh-key: ${{ secrets.GLOBAL_SSH }}
+        ssh-key: ${{ secrets.GLOBAL_TOKEN }}
 
     - name: Faz o push caso tenha alteração
       run: |
