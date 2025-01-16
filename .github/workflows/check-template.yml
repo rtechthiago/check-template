@@ -98,6 +98,7 @@ jobs:
       with:
         persist-credentials: false
         fetch-depth: 0
+        ref: ${{ steps.commit_message.outputs.new_branch_name }}
         ssh-key: ${{ secrets.GLOBAL_SSH }}
 
     - name: Faz o push caso tenha alteração
