@@ -93,12 +93,12 @@ jobs:
       run: |
         python remote_actions/.github/scripts/set_up_workflow.py
 
-    - name: Checkout repositório atual
+    - name: Checkout New Branch
       uses: actions/checkout@v4
       with:
         persist-credentials: false
         fetch-depth: 0
-        ref: ${{ github.ref == '$new_branch_name' }}
+        ref: ${{ env.new_branch_name }}
         ssh-key: ${{ secrets.GLOBAL_SSH }}
 
     - name: Faz o push caso tenha alteração
