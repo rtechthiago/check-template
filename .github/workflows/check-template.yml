@@ -134,7 +134,8 @@ jobs:
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
         signoff: false
         branch: ${{ env.new_branch_name }}
-        delete-branch: false
+        base: ${{ env.branch_name }}
+        delete-branch: true
         title: 'Update workflows'
         body: |
           Update report
