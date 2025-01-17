@@ -129,12 +129,12 @@ jobs:
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Update report
+        commit-message: Update workflows files
         committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
         signoff: false
         branch: ${{ env.new_branch_name }}
-        delete-branch: true
+        delete-branch: false
         title: 'Update workflows'
         body: |
           Update report
