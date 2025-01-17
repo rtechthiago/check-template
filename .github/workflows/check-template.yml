@@ -129,7 +129,7 @@ jobs:
         branch: ${{ env.new_branch_name }}
         base: ${{ env.branch_name }}
         delete-branch: true
-        title: 'Update workflows'
+        title: 'Update workflows ${{ env.branch_name }}'
         body: |
           Update report
           - Updated with *today's* date
