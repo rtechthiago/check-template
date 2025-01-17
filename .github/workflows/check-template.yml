@@ -27,7 +27,7 @@ jobs:
     - id: deleta_branch
       uses: GuillaumeFalourd/branch-exists@v1.1
       with:
-        branch: ${{ steps.commit_message.outputs.new_branch_name }}
+        branch: ${{ env.new_branch_name }}
 
     
     - if: steps.deleta_branch.outputs.exists == 'true'
