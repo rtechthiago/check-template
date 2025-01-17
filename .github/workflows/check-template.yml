@@ -113,7 +113,7 @@ jobs:
         git add .github/
         if [[ $(git status --porcelain) ]]; then
           git commit -m "Sync .github com o diretório remoto [skip ci]"
-          git push --set-upstream origin $new_branch_name
+
         else
           echo "Sem mudanças para comitar"
         fi
